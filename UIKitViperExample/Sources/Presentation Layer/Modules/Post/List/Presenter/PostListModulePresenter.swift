@@ -25,6 +25,11 @@ final class PostListModulePresenter {
 
 extension PostListModulePresenter: PostListModuleInput {
     
+    func prepareTabBarItem() {
+        Task { @MainActor [weak self] in
+            self?.view?.setupTabBarItem()
+        }
+    }
 }
 
 // MARK: - PostListModuleInteractorOutput
