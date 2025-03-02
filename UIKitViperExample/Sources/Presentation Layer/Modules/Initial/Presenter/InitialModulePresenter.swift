@@ -36,4 +36,20 @@ extension InitialModulePresenter: InitialModuleViewOutput {
             self?.view?.setupInitialState()
         }
     }
+    
+    func viewDidAppear() {
+        Task { @MainActor [weak self] in
+            self?.openMainScreen()
+        }
+    }
+}
+
+// MARK: - Private
+
+private extension InitialModulePresenter {
+    
+    @MainActor func openMainScreen() {
+        let mainVC = MainModuleAssembly.makeModule()
+        self.router.open(viewController: mainVC, animated: true)
+    }
 }
