@@ -1,7 +1,7 @@
 import UIKit
 
 protocol PostListModuleInput: ModuleInput {
-    
+    func prepareTabBarItem()
 }
 
 protocol PostListModuleOutput: ModuleOutput {
@@ -27,7 +27,7 @@ protocol PostListModuleRouterInput: ModuleRouterInput {
 // MARK: - View
 
 protocol PostListModuleViewInput: ModuleViewInput {
-    
+    func setupTabBarItem()
 }
 
 protocol PostListModuleViewOutput: ModuleViewOutput {

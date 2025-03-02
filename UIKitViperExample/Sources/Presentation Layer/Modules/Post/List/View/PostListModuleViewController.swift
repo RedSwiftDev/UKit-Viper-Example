@@ -22,6 +22,10 @@ final class PostListModuleViewController: UIViewController {
 extension PostListModuleViewController: PostListModuleViewInput {
     
     func setupInitialState() {
+        
+    }
+    
+    func setupTabBarItem() {
         self.title = "Post List"
         self.tabBarItem.image = UIImage(systemName: "rectangle.stack")
         self.tabBarItem.selectedImage = UIImage(systemName: "rectangle.stack.fill")
