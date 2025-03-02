@@ -13,6 +13,7 @@ final class MainModulePresenter {
     private weak var postList: (any PostListModuleInput)?
     private weak var albumList: (any AlbumListModuleInput)?
     private weak var todoList: (any TodoListModuleInput)?
+    private weak var userList: (any UserListModuleInput)?
     
     // MARK: - Init
     
@@ -68,6 +69,12 @@ extension MainModulePresenter: TodoListModuleOutput {
     
 }
 
+// MARK: - UserListModuleOutput
+
+extension MainModulePresenter: UserListModuleOutput {
+    
+}
+
 // MARK: - Private
 
 private extension MainModulePresenter {
@@ -76,6 +83,7 @@ private extension MainModulePresenter {
         self.setupPostListTabIfNeeded()
         self.setupAlbumListTabIfNeeded()
         self.setupTodoListTabIfNeeded()
+        self.setupUserListTabIfNeeded()
     }
     
     @MainActor func setupPostListTabIfNeeded() {
@@ -100,5 +108,13 @@ private extension MainModulePresenter {
         self.todoList = todoListInput
         self.router.insertTab(viewController: todoListVC, at: 2, animated: false)
         todoListInput.prepareTabBarItem()
+    }
+    
+    @MainActor func setupUserListTabIfNeeded() {
+        guard self.userList == nil else { return }
+        let (userListVC, userListInput) = UserListModuleAssembly.makeModule(output: self)
+        self.userList = userListInput
+        self.router.insertTab(viewController: userListVC, at: 3, animated: false)
+        userListInput.prepareTabBarItem()
     }
 }
