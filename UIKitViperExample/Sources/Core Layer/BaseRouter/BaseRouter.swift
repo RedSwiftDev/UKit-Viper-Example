@@ -25,6 +25,8 @@ import UIKit
 
 extension BaseRouter: ModuleRouterInput {
     
+    // MARK: UIViewController
+    
     func present(viewController: UIViewController, animated: Bool) {
         self.viewController?.present(viewController, animated: animated)
     }
@@ -40,6 +42,8 @@ extension BaseRouter: ModuleRouterInput {
     func dismiss(animated: Bool, completion: @escaping () -> Void) {
         self.viewController?.dismiss(animated: animated, completion: completion)
     }
+    
+    // MARK: UINavigationController
     
     func open(viewController: UIViewController, animated: Bool) {
         self.navigationController?.setViewControllers(
@@ -82,4 +86,31 @@ extension BaseRouter: ModuleRouterInput {
         self.navigationController?.popToRootViewController(animated: animated)
     }
     
+    // MARK: UITabBarController
+    
+    func appendTab(viewController: UIViewController, animated: Bool) {
+        guard let tbc = self.tabBarController else { return }
+        var tabs = tbc.viewControllers ?? []
+        tabs.append(viewController)
+        tbc.setViewControllers(tabs, animated: animated)
+    }
+    
+    func insertTab(viewController: UIViewController, at index: Int, animated: Bool) {
+        guard let tbc = self.tabBarController else { return }
+        var tabs = tbc.viewControllers ?? []
+        if tabs.count > index {
+            tabs.insert(viewController, at: index)
+        } else {
+            tabs.append(viewController)
+        }
+        tbc.setViewControllers(tabs, animated: animated)
+    }
+    
+    func removeTab(viewController: UIViewController, animated: Bool) {
+        guard let tbc = self.tabBarController, var tabs = tbc.viewControllers else { return }
+        let countOfTabs = tabs.count
+        tabs.removeAll { $0 === viewController }
+        guard countOfTabs != tabs.count else { return }
+        tbc.setViewControllers(tabs, animated: animated)
+    }
 }
