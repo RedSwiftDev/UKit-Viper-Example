@@ -8,6 +8,10 @@ final class MainModulePresenter {
     private let router: any MainModuleRouterInput
     private weak var view: (any MainModuleViewInput)?
     
+    // MARK: Inputs
+    
+    private weak var postList: (any PostListModuleInput)?
+    
     // MARK: - Init
     
     init(
@@ -35,5 +39,33 @@ extension MainModulePresenter: MainModuleViewOutput {
         Task { @MainActor [weak self] in
             self?.view?.setupInitialState()
         }
+    }
+    
+    func viewDidAppear() {
+        Task { @MainActor [weak self] in
+            self?.setupTabs()
+        }
+    }
+}
+
+// MARK: - PostListModuleOutput
+
+extension MainModulePresenter: PostListModuleOutput {
+    
+}
+
+// MARK: - Private
+
+private extension MainModulePresenter {
+    
+    @MainActor func setupTabs() {
+        self.setupPostListTabIfNeeded()
+    }
+    
+    @MainActor func setupPostListTabIfNeeded() {
+        guard self.postList == nil else { return }
+        let (postListVC, postListInput) = PostListModuleAssembly.makeModule(output: self)
+        self.postList = postListInput
+        self.router.insertTab(viewController: postListVC, at: 0, animated: false)
     }
 }

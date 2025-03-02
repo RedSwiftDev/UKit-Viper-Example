@@ -14,6 +14,11 @@ final class MainModuleViewController: UITabBarController {
         super.viewDidLoad()
         self.output?.viewDidLoad()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.output?.viewDidAppear()
+    }
 
 }
 
