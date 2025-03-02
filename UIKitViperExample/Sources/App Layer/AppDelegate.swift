@@ -27,7 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setupInitialViewController() {
-        let nc = UINavigationController()
+        let initialVC = InitialModuleAssembly.makeModule()
+        let nc = UINavigationController(rootViewController: initialVC)
         nc.navigationBar.isHidden = true
         self.window?.rootViewController = nc
     }
