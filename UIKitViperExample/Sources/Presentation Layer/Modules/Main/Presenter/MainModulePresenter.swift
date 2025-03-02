@@ -14,6 +14,7 @@ final class MainModulePresenter {
     private weak var albumList: (any AlbumListModuleInput)?
     private weak var todoList: (any TodoListModuleInput)?
     private weak var userList: (any UserListModuleInput)?
+    private weak var settings: (any SettingsModuleInput)?
     
     // MARK: - Init
     
@@ -75,6 +76,12 @@ extension MainModulePresenter: UserListModuleOutput {
     
 }
 
+// MARK: - SettingsModuleOutput
+
+extension MainModulePresenter: SettingsModuleOutput {
+    
+}
+
 // MARK: - Private
 
 private extension MainModulePresenter {
@@ -84,6 +91,7 @@ private extension MainModulePresenter {
         self.setupAlbumListTabIfNeeded()
         self.setupTodoListTabIfNeeded()
         self.setupUserListTabIfNeeded()
+        self.setupSettingsTabIfNeeded()
     }
     
     @MainActor func setupPostListTabIfNeeded() {
@@ -116,5 +124,13 @@ private extension MainModulePresenter {
         self.userList = userListInput
         self.router.insertTab(viewController: userListVC, at: 3, animated: false)
         userListInput.prepareTabBarItem()
+    }
+    
+    @MainActor func setupSettingsTabIfNeeded() {
+        guard self.settings == nil else { return }
+        let (settingsVC, settingsInput) = SettingsModuleAssembly.makeModule(output: self)
+        self.settings = settingsInput
+        self.router.insertTab(viewController: settingsVC, at: 4, animated: false)
+        settingsInput.prepareTabBarItem()
     }
 }
