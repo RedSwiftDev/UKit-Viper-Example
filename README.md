@@ -14,7 +14,7 @@
 * Custom Popup Transitions;
 * Async, Threading:
   * Swift Concurrency (async/await & Task);
-  * Dispatch Frameword (Grand Central Dispatch, GCD);
+  * Dispatch Framework (Grand Central Dispatch, GCD);
 * Animating views;
 
 ---
