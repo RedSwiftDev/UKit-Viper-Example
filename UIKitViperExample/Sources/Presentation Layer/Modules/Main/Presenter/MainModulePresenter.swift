@@ -11,6 +11,7 @@ final class MainModulePresenter {
     // MARK: Inputs
     
     private weak var postList: (any PostListModuleInput)?
+    private weak var albumList: (any AlbumListModuleInput)?
     
     // MARK: - Init
     
@@ -54,12 +55,19 @@ extension MainModulePresenter: PostListModuleOutput {
     
 }
 
+// MARK: - AlbumListModuleOutput
+
+extension MainModulePresenter: AlbumListModuleOutput {
+    
+}
+
 // MARK: - Private
 
 private extension MainModulePresenter {
     
     @MainActor func setupTabs() {
         self.setupPostListTabIfNeeded()
+        self.setupAlbumListTabIfNeeded()
     }
     
     @MainActor func setupPostListTabIfNeeded() {
@@ -67,5 +75,14 @@ private extension MainModulePresenter {
         let (postListVC, postListInput) = PostListModuleAssembly.makeModule(output: self)
         self.postList = postListInput
         self.router.insertTab(viewController: postListVC, at: 0, animated: false)
+        postListInput.prepareTabBarItem()
+    }
+    
+    @MainActor func setupAlbumListTabIfNeeded() {
+        guard self.albumList == nil else { return }
+        let (albumListVC, albumListInput) = AlbumListModuleAssembly.makeModule(output: self)
+        self.albumList = albumListInput
+        self.router.insertTab(viewController: albumListVC, at: 1, animated: false)
+        albumListInput.prepareTabBarItem()
     }
 }
